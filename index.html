@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- AOS (Animate On Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Three.js Module -->
+    <script type="module" src="js/three-init.js"></script>
     <!-- Stripe -->
     <script async src="https://js.stripe.com/v3/"></script>
     <link rel="stylesheet" href="css/style.css">
@@ -24,7 +28,12 @@
                 <h1>TrendyShop</h1>
             </div>
             <nav class="nav">
-                <ul>
+                <div class="hamburger" id="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#categories">Categories</a></li>
                     <li><a href="#products">Products</a></li>
@@ -46,15 +55,15 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero" data-aos="fade-up">
+        <div id="particles-js"></div>
+        <div id="three-js-canvas"></div>
         <div class="container">
             <div class="hero-content">
-                <h2 class="animate__animated animate__fadeInLeft">Discover the Latest Trends</h2>
+                <h2 class="animate__animated animate__fadeInLeft animate__delay-0.5s">Discover the Latest Trends</h2>
                 <p class="animate__animated animate__fadeInLeft animate__delay-1s">Shop the most stylish and modern products with our curated collection.</p>
-                <a href="#products" class="btn-primary animate__animated animate__fadeInUp animate__delay-2s">Shop Now</a>
+                <a href="#products" class="btn-primary animate__animated animate__fadeInUp animate__delay-2s pulse-animation">Shop Now</a>
             </div>
-            <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=400&fit=crop" alt="Fashion Shopping" data-aos="zoom-in">
-            </div>
+
         </div>
     </section>
 
