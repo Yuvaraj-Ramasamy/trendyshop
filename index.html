@@ -45,6 +45,10 @@
                     <input type="text" placeholder="Search products..." id="search-input">
                     <button id="search-btn"><i class="fas fa-search"></i></button>
                 </div>
+                <div class="wishlist">
+                    <i class="far fa-heart"></i>
+                    <span class="wishlist-count">0</span>
+                </div>
                 <div class="cart">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
@@ -100,28 +104,72 @@
     <section id="products" class="products" data-aos="fade-up">
         <div class="container">
             <h2>Featured Products</h2>
-            <div class="product-grid">
-                <div class="product-card" data-aos="zoom-in">
+            <!-- Product Filters -->
+            <div class="filters-container" data-aos="fade-up">
+                <div class="filter-group">
+                    <label>Category:</label>
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="home">Home & Garden</option>
+                        <option value="beauty">Beauty</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Price Range:</label>
+                    <select id="price-filter">
+                        <option value="all">All Prices</option>
+                        <option value="0-100">$0 - $100</option>
+                        <option value="100-200">$100 - $200</option>
+                        <option value="200-500">$200 - $500</option>
+                        <option value="500+">$500+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Sort by:</label>
+                    <select id="sort-filter">
+                        <option value="default">Default</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Best Rating</option>
+                    </select>
+                </div>
+                <button id="reset-filters" class="btn-secondary">Reset Filters</button>
+            </div>
+
+            <div class="product-grid" id="product-grid">
+                <div class="product-card" data-aos="zoom-in" data-category="fashion" data-price="99.99" data-rating="4.5">
+                    <div class="product-badge">New</div>
+                    <div class="wishlist-btn" data-product="Modern Jacket"><i class="far fa-heart"></i></div>
                     <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300&h=250&fit=crop" alt="Modern Jacket">
                     <h3>Modern Jacket</h3>
+                    <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
                     <p>$99.99</p>
                     <button class="btn-secondary add-to-cart" data-product="Modern Jacket" data-price="99.99">Add to Cart</button>
                 </div>
-                <div class="product-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="100" data-category="electronics" data-price="149.99" data-rating="4.8">
+                    <div class="wishlist-btn" data-product="Wireless Headphones"><i class="far fa-heart"></i></div>
                     <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=250&fit=crop" alt="Wireless Headphones">
                     <h3>Wireless Headphones</h3>
+                    <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                     <p>$149.99</p>
                     <button class="btn-secondary add-to-cart" data-product="Wireless Headphones" data-price="149.99">Add to Cart</button>
                 </div>
-                <div class="product-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="200" data-category="electronics" data-price="299.99" data-rating="4.7">
+                    <div class="product-badge">Sale</div>
+                    <div class="wishlist-btn" data-product="Smart Watch"><i class="far fa-heart"></i></div>
                     <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=250&fit=crop" alt="Smart Watch">
                     <h3>Smart Watch</h3>
+                    <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
                     <p>$299.99</p>
                     <button class="btn-secondary add-to-cart" data-product="Smart Watch" data-price="299.99">Add to Cart</button>
                 </div>
-                <div class="product-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="300" data-category="fashion" data-price="199.99" data-rating="4.6">
+                    <div class="wishlist-btn" data-product="Designer Bag"><i class="far fa-heart"></i></div>
                     <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=250&fit=crop" alt="Designer Bag">
                     <h3>Designer Bag</h3>
+                    <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
                     <p>$199.99</p>
                     <button class="btn-secondary add-to-cart" data-product="Designer Bag" data-price="199.99">Add to Cart</button>
                 </div>
@@ -165,21 +213,68 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form>
+                    <form id="contact-form">
                         <div class="form-group">
-                            <input type="text" placeholder="Your Name" required>
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" placeholder="John Doe" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" placeholder="Your Email" required>
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" placeholder="john@example.com" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Subject" required>
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" placeholder="How can we help?" required>
                         </div>
                         <div class="form-group">
-                            <textarea placeholder="Your Message" required></textarea>
+                            <label for="message">Your Message</label>
+                            <textarea id="message" placeholder="Your Message" required></textarea>
                         </div>
+                        <div id="form-status" class="form-status"></div>
                         <button type="submit" class="btn-primary">Send Message</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials" data-aos="fade-up">
+        <div class="container">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-aos="fade-up">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"Amazing products and great customer service! I'm very happy with my purchase."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JD</div>
+                        <div>
+                            <h4>John Doe</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                    <p>"Excellent quality and fast shipping. Highly recommended for anyone looking for trendy items."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SM</div>
+                        <div>
+                            <h4>Sarah Martinez</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"The best online shopping experience I've had. Great selection and unbeatable prices!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AK</div>
+                        <div>
+                            <h4>Alex Kumar</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -232,6 +327,17 @@
             <span class="cart-close close">&times;</span>
             <div id="cart-modal-content">
                 <!-- Cart content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlist-modal" class="modal">
+        <div class="modal-content wishlist-modal-content">
+            <span class="close wishlist-close">&times;</span>
+            <h2>My Wishlist</h2>
+            <div id="wishlist-items">
+                <!-- Wishlist items will be dynamically inserted here -->
             </div>
         </div>
     </div>

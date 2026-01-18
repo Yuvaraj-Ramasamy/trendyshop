@@ -1,5 +1,158 @@
 // Initialize AOS (Animate On Scroll)
 AOS.init();
+
+// Wishlist functionality
+let wishlistItems = [];
+let wishlistCount = 0;
+const wishlistCountElement = document.querySelector('.wishlist-count');
+const wishlistIcon = document.querySelector('.wishlist');
+
+// Load wishlist from localStorage on page load
+window.addEventListener('load', () => {
+    const savedWishlist = localStorage.getItem('wishlistItems');
+    const savedWishlistCount = localStorage.getItem('wishlistCount');
+    if (savedWishlist) {
+        wishlistItems = JSON.parse(savedWishlist);
+        wishlistCount = parseInt(savedWishlistCount) || 0;
+        wishlistCountElement.textContent = wishlistCount;
+        updateWishlistButtons();
+    }
+});
+
+// Wishlist button functionality
+document.querySelectorAll('.wishlist-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const productName = btn.getAttribute('data-product');
+        const card = btn.closest('.product-card');
+        const productPrice = card.querySelector('p').textContent;
+        const productImage = card.querySelector('img').src;
+
+        const existingItem = wishlistItems.find(item => item.name === productName);
+        if (existingItem) {
+            wishlistItems = wishlistItems.filter(item => item.name !== productName);
+            wishlistCount--;
+            btn.classList.remove('active');
+        } else {
+            wishlistItems.push({
+                name: productName,
+                price: productPrice,
+                image: productImage
+            });
+            wishlistCount++;
+            btn.classList.add('active');
+        }
+
+        wishlistCountElement.textContent = wishlistCount;
+        localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+        localStorage.setItem('wishlistCount', wishlistCount);
+    });
+});
+
+// Update wishlist buttons on load
+function updateWishlistButtons() {
+    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+        const productName = btn.getAttribute('data-product');
+        if (wishlistItems.some(item => item.name === productName)) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+// Wishlist modal
+const wishlistModal = document.getElementById('wishlist-modal');
+const wishlistItemsContainer = document.getElementById('wishlist-items');
+const wishlistCloseBtn = document.querySelector('.wishlist-close');
+
+wishlistIcon.addEventListener('click', () => {
+    displayWishlist();
+    wishlistModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+});
+
+wishlistCloseBtn.addEventListener('click', () => {
+    wishlistModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === wishlistModal) {
+        wishlistModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+function displayWishlist() {
+    wishlistItemsContainer.innerHTML = '';
+    if (wishlistItems.length === 0) {
+        wishlistItemsContainer.innerHTML = '<p>Your wishlist is empty.</p>';
+    } else {
+        wishlistItems.forEach((item, index) => {
+            wishlistItemsContainer.innerHTML += `
+                <div class="wishlist-item">
+                    <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover;">
+                    <div class="wishlist-item-details">
+                        <h4>${item.name}</h4>
+                        <p>Price: ${item.price}</p>
+                    </div>
+                    <div class="wishlist-actions">
+                        <button class="add-to-cart-wishlist" data-product="${item.name}" data-price="${item.price.replace('$', '')}">Add to Cart</button>
+                        <button class="remove-wishlist" data-index="${index}">Remove</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Add event listeners for remove buttons
+    document.querySelectorAll('.remove-wishlist').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const index = parseInt(e.target.getAttribute('data-index'));
+            wishlistItems.splice(index, 1);
+            wishlistCount--;
+            wishlistCountElement.textContent = wishlistCount;
+            localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+            localStorage.setItem('wishlistCount', wishlistCount);
+            displayWishlist();
+            updateWishlistButtons();
+        });
+    });
+
+    // Add event listeners for add to cart buttons
+    document.querySelectorAll('.add-to-cart-wishlist').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const productName = button.getAttribute('data-product');
+            const productPrice = button.getAttribute('data-price');
+            addToCartFromWishlist(productName, productPrice);
+        });
+    });
+}
+
+function addToCartFromWishlist(productName, productPrice) {
+    const existingItem = cartItems.find(item => item.name === productName);
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        const wishItem = wishlistItems.find(item => item.name === productName);
+        cartItems.push({
+            name: productName,
+            price: productPrice,
+            image: wishItem.image,
+            quantity: 1
+        });
+    }
+
+    cartCount++;
+    cartCountElement.textContent = cartCount;
+    cartIcon.classList.add('animate__animated', 'animate__bounce');
+    setTimeout(() => {
+        cartIcon.classList.remove('animate__animated', 'animate__bounce');
+    }, 1000);
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    localStorage.setItem('cartCount', cartCount);
+}
+
 let cartItems = [];
 let cartCount = 0;
 const cartCountElement = document.querySelector('.cart-count');
@@ -181,6 +334,123 @@ searchInput.addEventListener('input', () => {
         });
     }
 });
+
+// Product filtering and sorting
+const categoryFilter = document.getElementById('category-filter');
+const priceFilter = document.getElementById('price-filter');
+const sortFilter = document.getElementById('sort-filter');
+const resetFiltersBtn = document.getElementById('reset-filters');
+const productGrid = document.getElementById('product-grid');
+
+function filterAndSortProducts() {
+    let products = Array.from(document.querySelectorAll('.product-card'));
+    const selectedCategory = categoryFilter.value;
+    const selectedPrice = priceFilter.value;
+    const selectedSort = sortFilter.value;
+
+    // Filter by category
+    if (selectedCategory !== 'all') {
+        products = products.filter(product => product.getAttribute('data-category') === selectedCategory);
+    }
+
+    // Filter by price
+    if (selectedPrice !== 'all') {
+        products = products.filter(product => {
+            const price = parseFloat(product.getAttribute('data-price'));
+            switch(selectedPrice) {
+                case '0-100': return price <= 100;
+                case '100-200': return price > 100 && price <= 200;
+                case '200-500': return price > 200 && price <= 500;
+                case '500+': return price > 500;
+                default: return true;
+            }
+        });
+    }
+
+    // Sort
+    if (selectedSort !== 'default') {
+        products.sort((a, b) => {
+            const priceA = parseFloat(a.getAttribute('data-price'));
+            const priceB = parseFloat(b.getAttribute('data-price'));
+            const ratingA = parseFloat(a.getAttribute('data-rating'));
+            const ratingB = parseFloat(b.getAttribute('data-rating'));
+
+            switch(selectedSort) {
+                case 'price-low': return priceA - priceB;
+                case 'price-high': return priceB - priceA;
+                case 'rating': return ratingB - ratingA;
+                default: return 0;
+            }
+        });
+    }
+
+    // Clear grid and add sorted/filtered products
+    productGrid.innerHTML = '';
+    products.forEach((product, index) => {
+        product.style.display = 'block';
+        product.setAttribute('data-aos-delay', (index * 100) + 'ms');
+        productGrid.appendChild(product);
+    });
+
+    // Reinitialize AOS
+    if (window.AOS) {
+        AOS.refresh();
+    }
+}
+
+categoryFilter.addEventListener('change', filterAndSortProducts);
+priceFilter.addEventListener('change', filterAndSortProducts);
+sortFilter.addEventListener('change', filterAndSortProducts);
+
+resetFiltersBtn.addEventListener('click', () => {
+    categoryFilter.value = 'all';
+    priceFilter.value = 'all';
+    sortFilter.value = 'default';
+    filterAndSortProducts();
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+        card.style.display = 'block';
+    });
+});
+
+// Contact form functionality
+const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
+
+        // Simple validation
+        if (name.trim() && email.trim() && subject.trim() && message.trim()) {
+            // Simulate sending (in real app, this would send to backend)
+            formStatus.textContent = 'Sending message...';
+            formStatus.classList.add('show');
+            
+            setTimeout(() => {
+                formStatus.textContent = 'Message sent successfully! We\'ll get back to you soon.';
+                formStatus.style.color = '#4caf50';
+                
+                // Clear form
+                contactForm.reset();
+                
+                // Hide status after 3 seconds
+                setTimeout(() => {
+                    formStatus.classList.remove('show');
+                }, 3000);
+            }, 1000);
+        } else {
+            formStatus.textContent = 'Please fill all fields.';
+            formStatus.style.color = '#ff4444';
+            formStatus.classList.add('show');
+        }
+    });
+}
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
