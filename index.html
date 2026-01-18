@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendy Ecommerce - Modern Dark Theme</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Stripe -->
+    <script async src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header animate__animated animate__fadeInDown">
+        <div class="container">
+            <div class="logo">
+                <h1>TrendyShop</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search products..." id="search-input">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero" data-aos="fade-up">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="animate__animated animate__fadeInLeft">Discover the Latest Trends</h2>
+                <p class="animate__animated animate__fadeInLeft animate__delay-1s">Shop the most stylish and modern products with our curated collection.</p>
+                <a href="#products" class="btn-primary animate__animated animate__fadeInUp animate__delay-2s">Shop Now</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=400&fit=crop" alt="Fashion Shopping" data-aos="zoom-in">
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="categories" data-aos="fade-up">
+        <div class="container">
+            <h2>Shop by Category</h2>
+            <div class="category-grid">
+                <div class="category-card" data-aos="flip-left">
+                    <i class="fas fa-tshirt"></i>
+                    <h3>Fashion</h3>
+                    <p>Latest trends in clothing</p>
+                </div>
+                <div class="category-card" data-aos="flip-left" data-aos-delay="100">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Electronics</h3>
+                    <p>Cutting-edge gadgets</p>
+                </div>
+                <div class="category-card" data-aos="flip-left" data-aos-delay="200">
+                    <i class="fas fa-home"></i>
+                    <h3>Home & Garden</h3>
+                    <p>Style your living space</p>
+                </div>
+                <div class="category-card" data-aos="flip-left" data-aos-delay="300">
+                    <i class="fas fa-heart"></i>
+                    <h3>Beauty</h3>
+                    <p>Enhance your beauty</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products" data-aos="fade-up">
+        <div class="container">
+            <h2>Featured Products</h2>
+            <div class="product-grid">
+                <div class="product-card" data-aos="zoom-in">
+                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300&h=250&fit=crop" alt="Modern Jacket">
+                    <h3>Modern Jacket</h3>
+                    <p>$99.99</p>
+                    <button class="btn-secondary add-to-cart" data-product="Modern Jacket" data-price="99.99">Add to Cart</button>
+                </div>
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=250&fit=crop" alt="Wireless Headphones">
+                    <h3>Wireless Headphones</h3>
+                    <p>$149.99</p>
+                    <button class="btn-secondary add-to-cart" data-product="Wireless Headphones" data-price="149.99">Add to Cart</button>
+                </div>
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=250&fit=crop" alt="Smart Watch">
+                    <h3>Smart Watch</h3>
+                    <p>$299.99</p>
+                    <button class="btn-secondary add-to-cart" data-product="Smart Watch" data-price="299.99">Add to Cart</button>
+                </div>
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=250&fit=crop" alt="Designer Bag">
+                    <h3>Designer Bag</h3>
+                    <p>$199.99</p>
+                    <button class="btn-secondary add-to-cart" data-product="Designer Bag" data-price="199.99">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact" data-aos="fade-up">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Address</h3>
+                            <p>123 Trendy Street<br>Style City, SC 12345</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>info@trendyshop.com</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Business Hours</h3>
+                            <p>Mon - Fri: 9AM - 6PM<br>Sat - Sun: 10AM - 4PM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" data-aos="fade-up">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TrendyShop</h3>
+                    <p>Your go-to for trendy products.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: info@trendyshop.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 TrendyShop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Product Details (hidden by default) -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Product Title</h2>
+            <img id="modal-image" src="" alt="Product Image">
+            <p id="modal-description">Product description goes here.</p>
+            <p id="modal-price">$0.00</p>
+            <button class="btn-primary add-to-cart-modal" data-product="" data-price="">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Cart Modal (hidden by default) -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content cart-modal-content">
+            <span class="cart-close close">&times;</span>
+            <div id="cart-modal-content">
+                <!-- Cart content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
