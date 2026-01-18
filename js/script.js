@@ -376,6 +376,277 @@ function openPaymentModal(total) {
     });
 }
 
+// Hamburger menu functionality
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+// Close mobile menu when clicking on a nav link
+document.querySelectorAll('.nav-menu li a').forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+});
+
+// Particles.js configuration
+particlesJS('particles-js', {
+    particles: {
+        number: {
+            value: 80,
+            density: {
+                enable: true,
+                value_area: 800
+            }
+        },
+        color: {
+            value: '#9c27b0'
+        },
+        shape: {
+            type: 'circle',
+            stroke: {
+                width: 0,
+                color: '#000000'
+            },
+            polygon: {
+                nb_sides: 5
+            }
+        },
+        opacity: {
+            value: 0.5,
+            random: false,
+            anim: {
+                enable: false,
+                speed: 1,
+                opacity_min: 0.1,
+                sync: false
+            }
+        },
+        size: {
+            value: 3,
+            random: true,
+            anim: {
+                enable: false,
+                speed: 40,
+                size_min: 0.1,
+                sync: false
+            }
+        },
+        line_linked: {
+            enable: true,
+            distance: 150,
+            color: '#9c27b0',
+            opacity: 0.4,
+            width: 1
+        },
+        move: {
+            enable: true,
+            speed: 2,
+            direction: 'none',
+            random: false,
+            straight: false,
+            out_mode: 'out',
+            bounce: false,
+            attract: {
+                enable: false,
+                rotateX: 600,
+                rotateY: 1200
+            }
+        }
+    },
+    interactivity: {
+        detect_on: 'canvas',
+        events: {
+            onhover: {
+                enable: true,
+                mode: 'repulse'
+            },
+            onclick: {
+                enable: true,
+                mode: 'push'
+            },
+            resize: true
+        },
+        modes: {
+            grab: {
+                distance: 400,
+                line_linked: {
+                    opacity: 1
+                }
+            },
+            bubble: {
+                distance: 400,
+                size: 40,
+                duration: 2,
+                opacity: 8,
+                speed: 3
+            },
+            repulse: {
+                distance: 200,
+                duration: 0.4
+            },
+            push: {
+                particles_nb: 4
+            },
+            remove: {
+                particles_nb: 2
+            }
+        }
+    },
+    retina_detect: true
+});
+
+// Additional animation effects
+function addRippleEffect(event) {
+    const button = event.currentTarget;
+    const circle = document.createElement('span');
+    const diameter = Math.max(button.clientWidth, button.clientHeight);
+    const radius = diameter / 2;
+
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+    circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+    circle.classList.add('ripple');
+
+    const ripple = button.getElementsByClassName('ripple')[0];
+    if (ripple) {
+        ripple.remove();
+    }
+
+    button.appendChild(circle);
+}
+
+// Add ripple effect to buttons
+document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+    button.addEventListener('click', addRippleEffect);
+});
+
+// Scroll-triggered animations
+function revealOnScroll() {
+    const elements = document.querySelectorAll('.category-card, .product-card, .info-item');
+    elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+
+        if (elementTop < window.innerHeight - elementVisible) {
+            element.classList.add('animate__animated', 'animate__fadeInUp');
+        }
+    });
+}
+
+window.addEventListener('scroll', revealOnScroll);
+
+// Typing effect for hero title
+function typeWriter(element, text, speed = 100) {
+    let i = 0;
+    element.innerHTML = '';
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    type();
+}
+
+// Apply typing effect to hero title
+window.addEventListener('load', () => {
+    const heroTitle = document.querySelector('.hero-content h2');
+    if (heroTitle) {
+        const originalText = heroTitle.textContent;
+        typeWriter(heroTitle, originalText, 50);
+    }
+    document.body.classList.add('loaded');
+});
+
+// Carousel functionality
+let currentSlide = 0;
+let slides;
+let indicators;
+let carouselInterval;
+
+function showSlide(index) {
+    // Hide all slides
+    slides.forEach(slide => slide.classList.remove('active'));
+    indicators.forEach(indicator => indicator.classList.remove('active'));
+
+    // Show current slide
+    slides[index].classList.add('active');
+    indicators[index].classList.add('active');
+    currentSlide = index;
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+}
+
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+}
+
+// Pause on hover
+const carouselContainer = document.querySelector('.carousel-container');
+if (carouselContainer) {
+    carouselContainer.addEventListener('mouseenter', () => {
+        clearInterval(carouselInterval);
+    });
+
+    carouselContainer.addEventListener('mouseleave', () => {
+        carouselInterval = setInterval(nextSlide, 4000);
+    });
+}
+
+// Indicator click handlers
+indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+        showSlide(index);
+        // Reset auto-play timer
+        clearInterval(carouselInterval);
+        carouselInterval = setInterval(nextSlide, 4000);
+    });
+});
+
+// Touch/swipe support for mobile
+let startX = 0;
+let endX = 0;
+
+if (carouselContainer) {
+    carouselContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
+
+    carouselContainer.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        const diffX = startX - endX;
+
+        if (Math.abs(diffX) > 50) { // Minimum swipe distance
+            if (diffX > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+            // Reset auto-play timer
+            clearInterval(carouselInterval);
+            carouselInterval = setInterval(nextSlide, 4000);
+        }
+    });
+}
+
 // Add loading animation to page
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');
