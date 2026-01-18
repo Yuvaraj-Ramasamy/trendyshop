@@ -1021,7 +1021,8 @@ body {
     }
 
     #particles-js {
-        display: none;
+        display: block !important;
+        visibility: visible !important;
     }
 
     #three-js-canvas {
@@ -1279,9 +1280,11 @@ body {
     }
 
     #particles-js {
-        display: none !important;
-        visibility: hidden !important;
+        display: block !important;
+        visibility: visible !important;
         pointer-events: none !important;
+        width: 100% !important;
+        height: 100% !important;
     }
 
     #three-js-canvas {
