@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-website",
+  "version": "1.0.0",
+  "description": "Modern ecommerce website",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server"
+  },
+  "dependencies": {
+    "three": "0.160.0"
+  }
+}
